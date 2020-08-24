@@ -10,7 +10,7 @@ participantsMap.set(3, { participantId: 3, participantName: 'faiez' });
 
 const participantsRouter = Router();
 
-participantsRouter.get('/', wrap(async (_req, res) => {
+participantsRouter.get('/participants', wrap(async (_req, res) => {
     const participants = Array.from(participantsMap.values());
     return res.send(participants);
 }));

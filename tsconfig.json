@@ -18,7 +18,7 @@
         "outDir": "dist",
         "rootDir": "./src",
         "declaration": true,
-        "noEmitOnError": true,
+        "noEmitOnError": false,
         "resolveJsonModule": true,
         "esModuleInterop": true
     },
