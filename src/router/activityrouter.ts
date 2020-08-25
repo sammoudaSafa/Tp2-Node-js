@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ActivityModel } from '../model/activitymodel';
 import { wrap } from '../util';
+import { participantsRouter } from './participantsrouter';
 
 const activityRouter = Router();
 const activitiesMap = new Map<number, ActivityModel>();
@@ -38,5 +39,12 @@ activityRouter.delete('/:activityId', wrap(async (req, res) => {
     return res.sendStatus(204);
 }));
 
+// ---------------------------
+activityRouter.get('/:activityId', wrap(async (_req, res) => {
+    return res.sendStatus(200);
+}));
 
+activityRouter.use('/participant', participantsRouter);
+
+// activityRouter.use('/activity/:ActivityId', participantsRouter);
 export { activityRouter };
