@@ -32,11 +32,10 @@ activityRouter.post('/', wrap(async (req, res) => {
     return res.send(activity);
 }));
 
-activityRouter.put('/:activityId', wrap(async (req, res) => {
-    const updatedActivity: ActivityModel = req.body;
-    req.activity.activityName = updatedActivity.activityName;
-    req.activity.startDate = updatedActivity.startDate;
-    return res.send(req.activity);
+
+activityRouter.delete('/:activityId', wrap(async (req, res) => {
+    activitiesMap.delete(req.activity.activityId);
+    return res.sendStatus(204);
 }));
 
 
