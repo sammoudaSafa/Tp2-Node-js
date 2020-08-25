@@ -4,19 +4,40 @@ import { wrap } from '../util';
 
 const activityRouter = Router();
 const activitiesMap = new Map<number, ActivityModel>();
-activitiesMap.set(1, { activityId: 1, activityName: 'Copa', startDate: new Date() });
+activitiesMap.set(1, { activityId: 1, activityName: 'Coupe', startDate: new Date() });
 activitiesMap.set(2, { activityId: 2, activityName: 'Tour', startDate: new Date() });
 activitiesMap.set(3, { activityId: 3, activityName: 'Evennement', startDate: new Date() });
+
+let nextActivityId = 4;
+activityRouter.use('/:activityId', wrap(async (req, res, next) => {
+    const activity = activitiesMap.get(parseInt(req.params.activityId));
+    if (activity === undefined) { return res.sendStatus(404); }
+    req.activity = activity;
+    return next();
+}));
 
 activityRouter.get('/', wrap(async (_req, res) => {
     const activities = Array.from(activitiesMap.values());
     return res.send(activities);
 }));
 
-activityRouter.post('/', wrap(async (req, res) => {
-    const receivedData: { text: string, searchString: string; } = req.body;
-    const stringExists = receivedData.text.includes(receivedData.searchString);
-    return res.send({ valid: stringExists });
+activityRouter.get('/:activityId', wrap(async (req, res) => {
+    return res.send(req.activity);
 }));
+
+activityRouter.post('/', wrap(async (req, res) => {
+    const activity: ActivityModel = req.body;
+    activity.activityId = nextActivityId++;
+    activitiesMap.set(activity.activityId, activity);
+    return res.send(activity);
+}));
+
+activityRouter.put('/:activityId', wrap(async (req, res) => {
+    const updatedActivity: ActivityModel = req.body;
+    req.activity.activityName = updatedActivity.activityName;
+    req.activity.startDate = updatedActivity.startDate;
+    return res.send(req.activity);
+}));
+
 
 export { activityRouter };
