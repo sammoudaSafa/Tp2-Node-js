@@ -1,10 +1,9 @@
 import { Router } from 'express';
-// import Map from '../data/activitymaps';
-import { ParticipantModel } from '../model/participantmodel';
+import { Participant } from '../model/participantmodel';
 import { wrap } from '../util';
 
 const participantsRouter = Router();
-const participantsMap = new Map<number, ParticipantModel>();
+const participantsMap = new Map<number, Participant>();
 participantsMap.set(1, { participantId: 1, participantName: 'yazid' });
 participantsMap.set(2, { participantId: 2, participantName: 'yomna' });
 participantsMap.set(3, { participantId: 3, participantName: 'faiez' });

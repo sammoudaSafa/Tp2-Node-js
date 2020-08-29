@@ -2,8 +2,7 @@ import bodyParser from 'body-parser';
 import errorHandler from 'errorhandler';
 import express from 'express';
 import { activityRouter } from './router/activityrouter';
-import { participantsRouter } from './router/participantsrouter';
-import { testRouter } from './router/testrouter';
+
 
 
 
@@ -24,7 +23,6 @@ app.use((_req, res, next) => {
     next();
 });
 
-app.use('/test', testRouter);
-app.use('/participants', participantsRouter);
+// app.use('/', participantsRouter);
 app.use('/activity', activityRouter);
 export { app };
