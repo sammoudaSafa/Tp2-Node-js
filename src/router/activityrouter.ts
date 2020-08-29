@@ -38,9 +38,17 @@ activityRouter.delete('/:activityId', wrap(async (req, res) => {
     activitiesMap.delete(req.activity.activityId);
     return res.sendStatus(204);
 }));
-
 // ---------------------------
+activityRouter.use('/:activityId', wrap(async (req, res, next) => {
+    const activityId = parseInt(req.params.activityId);
+    const activityModel = activitiesMap.get(activityId);
+    if (activityModel === undefined) {
+        return res.sendStatus(404);
+    }
+    // req.activityModel = activityModel;
+    return next();
 
+}));
 activityRouter.use('/:activityId/participant', participantsRouter);
 
 export { activityRouter };
