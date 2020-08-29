@@ -1,7 +1,9 @@
+import { ParticipantModel } from '../model/participantmodel';
 export interface ActivityModel {
 
     activityId: number;
     activityName: string;
-    participants?: [];
     startDate: Date;
+    participants?: Map<number, ParticipantModel>;
+
 }

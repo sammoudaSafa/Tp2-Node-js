@@ -1,4 +1,5 @@
 import { Router } from 'express';
+// import Map from '../data/activitymaps';
 import { ParticipantModel } from '../model/participantmodel';
 import { wrap } from '../util';
 
@@ -23,3 +24,4 @@ participantsRouter.post('/', wrap(async (req, res) => {
 }));
 
 export { participantsRouter };
+export { participantsMap };

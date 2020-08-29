@@ -25,6 +25,6 @@ app.use((_req, res, next) => {
 });
 
 app.use('/test', testRouter);
-app.use('/', participantsRouter);
+app.use('/participants', participantsRouter);
 app.use('/activity', activityRouter);
 export { app };
