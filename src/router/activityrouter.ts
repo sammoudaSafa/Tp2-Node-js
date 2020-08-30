@@ -7,10 +7,10 @@ import { participantsRouter } from './participantsrouter';
 const activityRouter = Router();
 
 
-// const activitiesMap = new Map<number, ActivityModel>();
-activitiesMap.set(1, { activityId: 1, activityName: 'Coupe', startDate: new Date('2020-05-12'), participant: new Map<3, ParticipantModel>() });
-activitiesMap.set(2, { activityId: 2, activityName: 'Tour', startDate: new Date('2020-10-08') });
+activitiesMap.set(1, { activityId: 1, activityName: 'Coupe', startDate: new Date('2020-05-12'), participant: new Map<number, ParticipantModel>() });
+activitiesMap.set(2, { activityId: 2, activityName: 'Tour', startDate: new Date('2020-10-08'), participant: new Map<number, ParticipantModel>() });
 activitiesMap.set(3, { activityId: 3, activityName: 'Evennement', startDate: new Date('2020-11-11') });
+
 
 let nextActivityId = 4;
 
@@ -33,13 +33,13 @@ activityRouter.get('/:activityId', wrap(async (req, res) => {
 activityRouter.post('/', wrap(async (req, res) => {
     const activity: ActivityModel = req.body;
     activity.activityId = nextActivityId++;
+    activity.startDate = new Date(activity.startDate);
     activitiesMap.set(activity.activityId, activity);
-    return res.send(activity);
+    return res.send({ activity });
 }));
 
 activityRouter.put('/:activityId', wrap(async (req, res) => {
     const updatedActivity: ActivityModel = req.body;
-    // inseredActivityModel.activityId = req.activity.activityId;
     req.activity.activityName = updatedActivity.activityName;
     req.activity.startDate = updatedActivity.startDate;
     return res.send(req.activity);
@@ -49,10 +49,7 @@ activityRouter.delete('/:activityId', wrap(async (req, res) => {
     activitiesMap.delete(req.activity.activityId);
     return res.sendStatus(204);
 }));
-// ---------------------------
-activityRouter.get('/:activityId/participant', wrap(async (req, res) => {
-    return res.send(req.activity);
-}));
+
 activityRouter.use('/:activityId/participant', participantsRouter);
 
 export { activityRouter };

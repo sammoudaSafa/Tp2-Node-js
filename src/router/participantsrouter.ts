@@ -9,38 +9,40 @@ participantsMap.set(2, { participantId: 2, participantName: 'yomna' });
 participantsMap.set(3, { participantId: 3, participantName: 'faiez' });
 
 let nextParticipantId = 4;
-// participantsRouter.use('/', wrap(async (_req, res) => {
-//     return res.send('participants router');
-// }));
-participantsRouter.use('/:participantId', wrap(async (req, res, next) => {
-    const participant = participantsMap.get(parseInt(req.params.participantId));
-    if (participant === undefined) { return res.sendStatus(404); }
-    req.participant = participant;
-    return next();
-}));
 participantsRouter.get('/', wrap(async (_req, res) => {
     const participants = Array.from(participantsMap.values());
     return res.send(participants);
 }));
-// participantsRouter.get('/:participantId', wrap(async (req, res, next) => {
-//     const activity = participantsMap.get(parseInt(req.params.participantId));
-//     if (activity === undefined) { return res.sendStatus(404); }
-//     req.activity = activity;
-//     return next();
-// }));
-
-
-
-// participantsRouter.get('/:participantId', wrap(async (req, res) => {
-//     return res.send(req.participant);
-// }));
 
 participantsRouter.post('/', wrap(async (req, res) => {
     const participant: ParticipantModel = req.body;
     participant.participantId = nextParticipantId++;
     participantsMap.set(participant.participantId, participant);
-    return res.send(participant);
+    return res.send({ participant });
 }));
 
+participantsRouter.get('/:participantId', wrap(async (req, res) => {
+    const participantId = parseInt(req.params.participantId);
+    if (!participantsMap.has(participantId)) {
+        return res.sendStatus(404);
+    }
+    return res.send(participantsMap.get(participantId));
+}));
+
+participantsRouter.put('/:participantId', wrap(async (req, res) => {
+    const participe: ParticipantModel = req.body;
+    if (!participantsMap.has(participe.participantId)) {
+        return res.sendStatus(404);
+    }
+    participantsMap.set(participe.participantId, participe);
+    return res.send(participantsMap.get(participe.participantId));
+}));
+
+participantsRouter.delete('/:participantId', wrap(async (req, res) => {
+    const participantId = parseInt(req.params.participantId);
+    participantsMap.delete(participantId);
+    return res.send();
+}));
+
+
 export { participantsRouter };
-// export { participantsMap };
