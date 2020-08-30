@@ -1,15 +1,19 @@
 import { Router } from 'express';
+import { activitiesMap } from '../datamap';
 import { ActivityModel } from '../model/activitymodel';
+import { ParticipantModel } from '../model/participantmodel';
 import { wrap } from '../util';
 import { participantsRouter } from './participantsrouter';
 const activityRouter = Router();
 
-const activitiesMap = new Map<number, ActivityModel>();
-activitiesMap.set(1, { activityId: 1, activityName: 'Coupe', startDate: new Date() });
-activitiesMap.set(2, { activityId: 2, activityName: 'Tour', startDate: new Date() });
-activitiesMap.set(3, { activityId: 3, activityName: 'Evennement', startDate: new Date() });
+
+// const activitiesMap = new Map<number, ActivityModel>();
+activitiesMap.set(1, { activityId: 1, activityName: 'Coupe', startDate: new Date('2020-05-12'), participant: new Map<3, ParticipantModel>() });
+activitiesMap.set(2, { activityId: 2, activityName: 'Tour', startDate: new Date('2020-10-08') });
+activitiesMap.set(3, { activityId: 3, activityName: 'Evennement', startDate: new Date('2020-11-11') });
 
 let nextActivityId = 4;
+
 activityRouter.use('/:activityId', wrap(async (req, res, next) => {
     const activity = activitiesMap.get(parseInt(req.params.activityId));
     if (activity === undefined) { return res.sendStatus(404); }
@@ -33,21 +37,21 @@ activityRouter.post('/', wrap(async (req, res) => {
     return res.send(activity);
 }));
 
+activityRouter.put('/:activityId', wrap(async (req, res) => {
+    const updatedActivity: ActivityModel = req.body;
+    // inseredActivityModel.activityId = req.activity.activityId;
+    req.activity.activityName = updatedActivity.activityName;
+    req.activity.startDate = updatedActivity.startDate;
+    return res.send(req.activity);
+}));
 
 activityRouter.delete('/:activityId', wrap(async (req, res) => {
     activitiesMap.delete(req.activity.activityId);
     return res.sendStatus(204);
 }));
 // ---------------------------
-activityRouter.use('/:activityId', wrap(async (req, res, next) => {
-    const activityId = parseInt(req.params.activityId);
-    const activityModel = activitiesMap.get(activityId);
-    if (activityModel === undefined) {
-        return res.sendStatus(404);
-    }
-    // req.activityModel = activityModel;
-    return next();
-
+activityRouter.get('/:activityId/participant', wrap(async (req, res) => {
+    return res.send(req.activity);
 }));
 activityRouter.use('/:activityId/participant', participantsRouter);
 

@@ -1,5 +1,4 @@
-export interface ParticipantModel {
-
-    participantId: number;
-    participantName: string;
+export class ParticipantModel {
+    public participantId: number;
+    public participantName: string;
 }

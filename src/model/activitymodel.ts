@@ -1,9 +1,7 @@
 import { ParticipantModel } from './participantmodel';
-export interface ActivityModel {
-
-    activityId: number;
-    activityName: string;
-    startDate: Date;
-    participants?: Map<number, ParticipantModel>;
-
+export class ActivityModel {
+    public activityId: number;
+    public activityName: string;
+    public startDate: Date;
+    public participant?: Map<number, ParticipantModel>;
 }

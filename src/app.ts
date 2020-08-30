@@ -8,6 +8,7 @@ import { activityRouter } from './router/activityrouter';
 
 
 
+
 const app = express();
 
 app.set('trust proxy', 'loopback');
@@ -23,6 +24,6 @@ app.use((_req, res, next) => {
     next();
 });
 
-// app.use('/', participantsRouter);
+// app.use('/participant', participantsRouter);
 app.use('/activity', activityRouter);
 export { app };
