@@ -24,6 +24,5 @@ app.use((_req, res, next) => {
     next();
 });
 
-// app.use('/participant', participantsRouter);
 app.use('/activity', activityRouter);
 export { app };

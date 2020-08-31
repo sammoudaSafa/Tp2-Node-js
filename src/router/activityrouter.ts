@@ -8,10 +8,9 @@ const activityRouter = Router();
 
 
 activitiesMap.set(1, { activityId: 1, activityName: 'Coupe', startDate: new Date('2020-05-12'), participant: new Map<number, ParticipantModel>() });
-activitiesMap.set(2, { activityId: 2, activityName: 'Tour', startDate: new Date('2020-10-08'), participant: new Map<number, ParticipantModel>() });
-activitiesMap.set(3, { activityId: 3, activityName: 'Evennement', startDate: new Date('2020-11-11') });
-
-
+const participantsactivite1 = activitiesMap.get(1)!.participant;
+participantsactivite1.set(1, { participantId: 1, participantName: 'yazid' });
+participantsactivite1.set(2, { participantId: 2, participantName: 'yomna' });
 let nextActivityId = 4;
 
 activityRouter.use('/:activityId', wrap(async (req, res, next) => {
@@ -23,7 +22,14 @@ activityRouter.use('/:activityId', wrap(async (req, res, next) => {
 
 activityRouter.get('/', wrap(async (_req, res) => {
     const activities = Array.from(activitiesMap.values());
-    return res.send(activities);
+    const affichedActivityList = activities.map(activityModel => {
+        const copieActivityModel = { ...activityModel };
+        return copieActivityModel;
+    });
+    for (let i: number = 0; activities.length > i; i++) {
+        delete activities[i].participant;
+    }
+    return res.send(affichedActivityList);
 }));
 
 activityRouter.get('/:activityId', wrap(async (req, res) => {
