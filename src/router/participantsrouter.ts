@@ -27,20 +27,10 @@ participantsRouter.post('/', wrap(async (req, res) => {
 }));
 
 
-// participantsRouter.put('/:participantId', wrap(async (req, res) => {
-//     const updatedparticipant: ParticipantModel = req.body;
-//     req.activity.participant.set(updatedparticipant.participantId, updatedparticipant);
-//     return res.send({ updatedparticipant });
-// }));
-
-// participantsRouter.put('/:participantId', wrap(async (req, res) => {
-//     const participe: ParticipantModel = req.body;
-//     if (!participantsMap.has(participe.participantId)) {
-//         return res.sendStatus(404);
-//     }
-//     participantsMap.set(participe.participantId, participe);
-//     return res.send(participantsMap.get(participe.participantId));
-// }));
-
-
+participantsRouter.put('/:participantId', wrap(async (req, res) => {
+    const updatedparticipant: ParticipantModel = req.body;
+    const participantMap = req.activity.participant;
+    participantMap.set(updatedparticipant.participantId, updatedparticipant);
+    return res.send(participantMap.get(updatedparticipant.participantId));
+}));
 export { participantsRouter };

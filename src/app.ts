@@ -3,12 +3,6 @@ import errorHandler from 'errorhandler';
 import express from 'express';
 import { activityRouter } from './router/activityrouter';
 
-
-
-
-
-
-
 const app = express();
 
 app.set('trust proxy', 'loopback');
@@ -23,6 +17,5 @@ app.use((_req, res, next) => {
     res.header('Pragma', 'no-cache');
     next();
 });
-
 app.use('/activity', activityRouter);
 export { app };
